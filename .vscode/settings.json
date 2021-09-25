@@ -1,0 +1,16 @@
+{
+    "prettier.quoteProps": "consistent",
+    "prettier.useTabs": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "javascript.inlayHints.enumMemberValues.enabled": true,
+    "javascript.suggest.completeFunctionCalls": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+    "typescript.format.insertSpaceAfterTypeAssertion": true,
+    "typescript.format.insertSpaceBeforeFunctionParenthesis": true
+}
