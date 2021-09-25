@@ -9,9 +9,9 @@ $options = [
 
 // use pdo for db connection
 $db_name =  'school';
-$db_host = "mysql:dbname=$db_name;host=127.0.0.1";
 $db_username = 'root';
 $db_password = '';
+$db_host = "mysql:dbname=$db_name;host=127.0.0.1";
 $db_conn = new PDO($db_host, $db_username, $db_password, $options);
 
 
@@ -49,12 +49,9 @@ function fetchStudentInfoLightStmt($connection, $st_id)
   }
 }
 
-function generateStudentReportMarkup($connection, $st_id)
+function generateStudentReportMarkup($student_header_info, $table_data)
 {
-  $student_header_info = fetchStudentInfoLightStmt($connection, $st_id)->fetch();
-  $table_data = fetchStudentInfoLargeStmt($connection, $st_id)->fetchAll();
-
-  return generateStudentHeaderHtml($student_header_info) . generateStudentTableHtml($table_data);
+  return generateStudentHeaderHtml($student_header_info) . generateStudentTableHtml(generateTableRows($table_data));
 }
 
 function generateStudentHeaderHtml($student)
@@ -75,10 +72,9 @@ function generateStudentHeaderHtml($student)
 STUDENT_HEADER;
 }
 
-function generateStudentTableHtml($data)
+function generateStudentTableHtml($rows)
 {
 
-  $rows = generateTableRows($data);
   return <<<STUDENT_TABLE
     <table>
     <thead>
@@ -144,11 +140,14 @@ function generateStudentsReportMarkup($connection)
   $student_id_query = 'SELECT students_id FROM students_info';
   $student_ids = $connection->query($student_id_query)->fetchAll(); # execute query directly since no injection is expected;
 
-  $reports_arr = array_map(function ($student_id) use ($connection){
-    return generateStudentReportMarkup($connection, $student_id['students_id']);
+  $reports_arr = array_map(function ($student_id) use ($connection) {
+    return generateStudentReportMarkup(
+      fetchStudentInfoLightStmt($connection, $student_id['students_id'])->fetch(),
+      fetchStudentInfoLargeStmt($connection, $student_id['students_id'])->fetchAll()
+    );
   }, $student_ids);
-  // $student_report = array_map(students_id,generateStudentReportMarkup);
-  
-  return implode('',$reports_arr);
+
+
+  return implode('', $reports_arr);
 }
 ?>

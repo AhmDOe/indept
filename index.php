@@ -5,52 +5,6 @@ include("data_mapper.php"); ?>
 <head>
   <title> Student Report Card </title>
   <h2> Student Report Card </h2>
-  <style>
-    body{
-      width: 70%;
-      display:flex;
-      flex-direction: column;
-      margin-left: auto;
-      margin-right: auto;
-      
-    }
-    html {
-      width:100%;
-      font-family: arial;
-      font-size: 18px;
-
-    }
-
-    td {
-      border: 1px solid #726E6D;
-      padding: 15px;
-    }
-
-    thead {
-      font-weight: bold;
-      text-align: center;
-      background: #625D5D;
-      color: white;
-    }
-
-    table {
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    .footer {
-      text-align: right;
-      font-weight: bold;
-    }
-
-    tbody>tr:nth-child(odd) {
-      background: #D1D0CE;
-    }
-
-    .report_form {
-      display: inline-block;
-    }
-  </style>
 </head>
 
 <body>
@@ -72,7 +26,10 @@ include("data_mapper.php"); ?>
   <?php
 
   if (isset($_GET['GET_REPORT_ONE'])) {
-    echo generateStudentReportMarkup($db_conn, $_GET['student_id']);
+    echo generateStudentReportMarkup(
+      fetchStudentInfoLightStmt($db_conn, $_GET['student_id'])->fetch(),
+      fetchStudentInfoLargeStmt($db_conn, $_GET['student_id'])->fetchAll()
+    );
   } else if (isset($_GET['GET_REPORT_ALL'])) {
     echo generateStudentsReportMarkup($db_conn);
   }
